@@ -121,6 +121,8 @@ public
       EMV2::OccurrenceDistribution => [ ProbabilityValue => 3.4e-5 ; Distribution => Fixed;] applies to DOF6.ValueErroneous;     
    **};
   end MPU9250;
+  
+    -- Kevin Abraham begin of addition for question Q8
 
   --------------
   -- FlowDeck --
@@ -162,6 +164,8 @@ public
       EMV2::OccurrenceDistribution => [ ProbabilityValue => 3.4e-5 ; Distribution => Fixed;] applies to FlowData.ValueErroneous;     
    **};
   end FlowDeck;
+  
+    -- Kevin Abraham end of addition for question Q8
 
   ---------------
   -- Propeller --
@@ -195,7 +199,9 @@ public
     nrf51822 : processor nrf51822;
 
     MPU9250 : device MPU9250;
+    -- Kevin Abraham begin of addition for question Q8
     FlowDeck : device FlowDeck;
+    -- Kevin Abraham end of addition for question Q8
     M1 : device Propeller;
     M2 : device Propeller;
     M3 : device Propeller;
@@ -203,7 +209,9 @@ public
 
     UART : bus Buses::UART::UART.impl;
     I2C : bus Buses::I2C::I2C.impl;
+    -- Kevin Abraham begin of addition for question Q8
     SPI : bus Buses::SPI::SPI.impl;
+    -- Kevin Abraham end of addition for question Q8
     PWM : bus PWM;
 
   connections
@@ -212,9 +220,11 @@ public
 
     C3 : bus access STM32F405.i2c_bus -> i2c;
     C4 : bus access MPU9250.i2c_bus -> i2c;
-    C16: bus access FlowDeck.i2c_bus -> i2c;
     
+    -- Kevin Abraham begin of addition for question Q8
+    C16: bus access FlowDeck.i2c_bus -> i2c;
     C17: bus access FlowDeck.spi_bus -> spi;
+    -- Kevin Abraham end of addition for question Q8
 
     C5 : bus access M1.pwm_bus -> PWM;
     C6 : bus access M2.pwm_bus -> PWM;

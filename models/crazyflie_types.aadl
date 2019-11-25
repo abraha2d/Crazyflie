@@ -31,6 +31,8 @@ public
     Gyro_Z : data Base_Types::Integer_16;
 
   end Six_Axis.impl;
+  
+    -- Kevin Abraham begin of addition for question Q8
 
   --------------
   -- Three_Axis --
@@ -50,6 +52,8 @@ public
     Altitude : data Base_Types::Integer_16;
 
   end Three_Axis.impl;
+  
+    -- Kevin Abraham end of addition for question Q8
 
   --------------------
   -- Syslink_Packet --
