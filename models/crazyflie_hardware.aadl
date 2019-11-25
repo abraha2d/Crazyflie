@@ -122,6 +122,47 @@ public
    **};
   end MPU9250;
 
+  --------------
+  -- FlowDeck --
+  --------------
+
+  device FlowDeck
+  features
+    FlowData : out data port Crazyflie_Types::Three_Axis.impl;
+    i2c_bus : requires bus access Buses::I2C::I2C.impl;
+    spi_bus : requires bus access Buses::SPI::SPI.impl;
+
+  flows
+    f1 : flow source FlowData { latency => 200 us .. 500 us; };
+
+  properties
+    Dispatch_Protocol => Periodic;
+    Period            => 10 ms;
+    
+  annex EMV2
+   {**
+     use types Crazyflie_Errors;
+     use behavior Crazyflie_Errors::simple;
+
+     error propagations
+       FlowData : out propagation{ValueErroneous};
+     flows
+       f1 : error source FlowData{ValueErroneous} when failed;
+     end propagations; 
+ 
+     properties
+       EMV2::hazards => 
+        ([  crossreference => "N/A";
+            failure => "IMU value error";
+            phases => ("in flight");
+            description => "Accelerometer starts to send an erroneous value";
+            comment => "Can be critical if not detected by the health monitoring";
+        ]) applies to FlowData.ValueErroneous;
+                
+      EMV2::OccurrenceDistribution => [ ProbabilityValue => 3.4e-5 ; Distribution => Fixed;] applies to FlowData.ValueErroneous;     
+   **};
+  end FlowDeck;
+
   ---------------
   -- Propeller --
   ---------------
@@ -154,6 +195,7 @@ public
     nrf51822 : processor nrf51822;
 
     MPU9250 : device MPU9250;
+    FlowDeck : device FlowDeck;
     M1 : device Propeller;
     M2 : device Propeller;
     M3 : device Propeller;
@@ -161,6 +203,7 @@ public
 
     UART : bus Buses::UART::UART.impl;
     I2C : bus Buses::I2C::I2C.impl;
+    SPI : bus Buses::SPI::SPI.impl;
     PWM : bus PWM;
 
   connections
@@ -169,6 +212,9 @@ public
 
     C3 : bus access STM32F405.i2c_bus -> i2c;
     C4 : bus access MPU9250.i2c_bus -> i2c;
+    C16: bus access FlowDeck.i2c_bus -> i2c;
+    
+    C17: bus access FlowDeck.spi_bus -> spi;
 
     C5 : bus access M1.pwm_bus -> PWM;
     C6 : bus access M2.pwm_bus -> PWM;

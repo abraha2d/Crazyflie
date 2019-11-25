@@ -32,6 +32,25 @@ public
 
   end Six_Axis.impl;
 
+  --------------
+  -- Three_Axis --
+  --------------
+
+  -- Raw 3-axis flow sensor plus LiDAR information
+
+  data Three_Axis
+  properties
+    Data_Model::Data_Representation => Struct;
+  end Three_Axis;
+
+  data implementation Three_Axis.impl
+  subcomponents
+    Delta_X  : data Base_Types::Integer_16;
+    Delta_Y  : data Base_Types::Integer_16;
+    Altitude : data Base_Types::Integer_16;
+
+  end Three_Axis.impl;
+
   --------------------
   -- Syslink_Packet --
   --------------------

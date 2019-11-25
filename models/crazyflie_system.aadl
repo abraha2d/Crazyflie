@@ -21,6 +21,7 @@ public
       -> nRF51822_Firmware.Syslink_Packet_Rx;
       
     C11 : port MPU9250.DOF6 -> STM32F405_Firmware.DOFs;
+    C18 : port FlowDeck.FlowData -> STM32F405_Firmware.FlowData;
     C12 : port STM32F405_Firmware.Rate_1 -> M1.rate;
     C13 : port STM32F405_Firmware.Rate_2 -> M2.rate;
     C14 : port STM32F405_Firmware.Rate_3 -> M3.rate;
