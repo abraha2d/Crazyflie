@@ -26,8 +26,8 @@ public
         ProbabilityValue => 1.0e-9;
         Distribution => Poisson;
       ] applies to Failed;
-      EMV2::severity => 1 applies to Failed;
-      EMV2::likelihood => C applies to Failed;
+      EMV2::severity => ARP4761::Catastrophic applies to Failed;
+      EMV2::likelihood => ARP4761::Remote applies to Failed;
       EMV2::hazards => ([
         crossreference => "";
         failure => "Loss of sensor readings";
@@ -59,8 +59,8 @@ public
         ProbabilityValue => 1.0e-9;
         Distribution => Poisson;
       ] applies to Failed;
-      EMV2::severity => 1 applies to Failed;
-      EMV2::likelihood => C applies to Failed;
+      EMV2::severity => ARP4761::Catastrophic applies to Failed;
+      EMV2::likelihood => ARP4761::Remote applies to Failed;
       EMV2::hazards => ([
         crossreference => "";
         failure => "Loss of sensor readings";
@@ -92,8 +92,8 @@ public
         ProbabilityValue => 1.0e-9;
         Distribution => Poisson;
       ] applies to Failed;
-      EMV2::severity => 1 applies to Failed;
-      EMV2::likelihood => C applies to Failed;
+      EMV2::severity => ARP4761::Catastrophic applies to Failed;
+      EMV2::likelihood => ARP4761::Remote applies to Failed;
       EMV2::hazards => ([
         crossreference => "";
         failure => "Loss of sensor readings";
@@ -146,6 +146,27 @@ public
 --    Dispatch_Protocol => Aperiodic;
     Dispatch_Protocol => Periodic;
     Period => 2ms;
+
+  annex emv2 {**
+    use types CrazyFlie_Errors;             -- definition of error types
+    use behavior Crazyflie_Errors::simple;  -- definition of error modes
+
+    properties
+      -- Useful for FHA reports
+      EMV2::OccurrenceDistribution => [
+        ProbabilityValue => 1.0e-9;
+        Distribution => Poisson;
+      ] applies to Failed;
+      EMV2::severity => ARP4761::Catastrophic applies to Failed;
+      EMV2::likelihood => ARP4761::Remote applies to Failed;
+      EMV2::hazards => ([
+        crossreference => "";
+        failure => "Loss of thrust";
+        phases => ("all");
+        description => "Motor failure";
+        comment => "May be critical as no redundancy on UAV";
+      ]) applies to Failed;
+  **};
   end Motors;
 
   abstract Pilot
