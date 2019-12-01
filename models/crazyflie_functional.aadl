@@ -222,6 +222,16 @@ public
     use types CrazyFlie_Errors;             -- definition of error types
     use behavior Crazyflie_Errors::simple;  -- definition of error modes
 
+    error propagations
+      Motor_In : in propagation {ValueError};
+    end propagations;
+    component error behavior
+    transitions
+      t1 : Operational -[
+        Motor_In{ValueError}
+      ]-> Failed;
+    end component;
+
     properties
       -- Useful for FHA reports
       EMV2::OccurrenceDistribution => [
