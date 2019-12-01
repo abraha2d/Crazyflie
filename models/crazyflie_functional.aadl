@@ -102,6 +102,14 @@ public
     use types CrazyFlie_Errors;             -- definition of error types
     use behavior Crazyflie_Errors::simple;  -- definition of error modes
 
+    error propagations
+      -- outgoing error propagation
+      Magneto_Out: out propagation {ValueError};
+    flows
+      -- When the sensor fails, its error is propagated through port Magneto_Out
+      ErrorSource: error source Magneto_Out {ValueError} when {ValueError};
+    end propagations;
+
     properties
       -- Useful for FHA reports
       EMV2::OccurrenceDistribution => [
