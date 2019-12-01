@@ -210,6 +210,21 @@ public
   	f_etef1bis : end to end flow Gyro.f1 -> C4 -> Controller.f2 -> C6 -> Motors.f1 { latency => 0 ms .. 2 ms;};
     f_etef2 : end to end flow Acc.f1 -> C1 -> Fusion.f1 -> C5 -> Controller.f1 -> C6 -> Motors.f1 { latency => 0 ms .. 2 ms;};
     
+  annex EMV2 {**
+    use types Crazyflie_Errors;
+    use behavior Crazyflie_Errors::simple;
+    composite error behavior
+    states
+      [ Acc.Operational
+        and Gyro.Operational
+        and Magneto.Operational
+      ]-> Operational;
+      [ Acc.Failed
+        or Gyro.Failed
+        or Magneto.Failed
+      ]-> Failed;
+    end composite;
+  **};
   end Crazyflie_Functional_Chain.impl;
 
 end Crazyflie_functional;
