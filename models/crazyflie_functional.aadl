@@ -182,6 +182,28 @@ public
   properties
     Dispatch_Protocol => Periodic;
     Period => 2 ms; --  500 Hz
+
+  annex EMV2 {**
+    use types Crazyflie_Errors;
+    use behavior Crazyflie_Errors::simple;
+    error propagations
+      Data_F_In : in propagation {ValueError};
+      Gyro_In : in propagation {ValueError};
+      Motor_Out : out propagation {ValueError};
+    flows
+      f1 : error path Data_F_In -> Motor_Out;
+      f2 : error path Gyro_In -> Motor_Out;
+    end propagations;
+    component error behavior
+    transitions
+      t1 : Operational -[
+        Data_F_In{ValueError}
+        or Gyro_In{ValueError}
+      ]-> Failed;
+    propagations
+      Failed -[]-> Motor_Out{ValueError};
+    end component;
+  **};
   end Controller;
 
   abstract Motors
