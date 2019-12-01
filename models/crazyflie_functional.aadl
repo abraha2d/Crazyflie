@@ -61,6 +61,14 @@ public
     use types CrazyFlie_Errors;             -- definition of error types
     use behavior Crazyflie_Errors::simple;  -- definition of error modes
 
+    error propagations
+      -- outgoing error propagation
+      Gyro_Out: out propagation {ValueError};
+    flows
+      -- When the sensor fails, its error is propagated through port Gyro_Out
+      ErrorSource: error source Gyro_Out {ValueError} when {ValueError};
+    end propagations;
+
     properties
       -- Useful for FHA reports
       EMV2::OccurrenceDistribution => [
